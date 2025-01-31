@@ -1,0 +1,73 @@
+description: ""
+game_slug: ashes-of-creation
+gogslug: ""
+humblestoreid: ""
+installer_slug: ashes-of-creation-alpha-2
+name: Ashes of Creation
+notes:
+  "On the dependencies installation screen uncheck vcredist and WebView2 but leave EAC checked.\r\
+  \nDo not log in immediately close launcher after install is complete."
+runner: wine
+script:
+  wine:
+    version: GE-Proton9-22
+    overrides:
+      urlmon.dll: n,b
+  files:
+    - setup:
+        filename: intrepid_installer.exe
+        url: https://ff-intrepid-launcher.s3.us-east-2.amazonaws.com/b9p7a3j6-6cw3-nz5s-km5y-r9w8u2x5cb4d/IntrepidInstaller-0.3.279.41781.exe
+    - webview_installer:
+        filename: webview2.exe
+        url: https://github.com/aedancullen/webview2-evergreen-standalone-installer-archive/releases/download/109.0.1518.78/MicrosoftEdgeWebView2RuntimeInstallerX64.exe
+  game:
+    arch: win64
+    exe: drive_c/Program Files/Intrepid Studios/Launcher/IntrepidStudiosLauncher.exe
+    prefix: $GAMEDIR
+  installer:
+    - task:
+        arch: win64
+        description: Creating 64bit Wine prefix.
+        name: create_prefix
+        prefix: $GAMEDIR
+    - task:
+        app: vcrun2022
+        arch: win64
+        description: Installing VCRedist2022
+        name: winetricks
+        prefix: $GAMEDIR
+    - merge:
+        dst: $GAMEDIR/drive_c/
+        src: setup
+    - merge:
+        dst: $GAMEDIR/drive_c/
+        src: webview_installer
+    - task:
+        arch: win64
+        description: Setting webview2 compatibility mode (Fixes login window)
+        key: version
+        name: set_regedit
+        path: HKEY_CURRENT_USER\Software\Wine\AppDefaults\msedgewebview2.exe
+        prefix: $GAMEDIR
+        type: REG_SZ
+        value: win7
+    - execute:
+        command:
+          WINEPREFIX="$GAMEDIR" "$WINEBIN" "$GAMEDIR/drive_c/webview2.exe" /silent
+          /install
+        description: Installing WebView2
+    - execute:
+        command: WINEPREFIX="$GAMEDIR" "$WINEBIN" "$GAMEDIR/drive_c/intrepid_installer.exe"
+        description: Installing Intrepid Installer
+    - execute:
+        command:
+          echo "d3d9.shaderModel = 1" > "$GAMEDIR/drive_c/Program Files/Intrepid
+          Studios/Launcher/dxvk.conf"
+        description: Setting ShaderModel (fixes wayland)
+    - task:
+        name: winekill
+        prefix: $GAMEDIR
+slug: ashes-of-creation-alpha-2
+steamid: null
+version: Alpha 2
+year: 2019
