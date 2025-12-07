@@ -10,13 +10,13 @@ notes:
 runner: wine
 script:
   wine:
-    version: GE-Proton9-22
+    version: GE-Proton10-21
     overrides:
       urlmon.dll: n,b
   files:
     - setup:
         filename: intrepid_installer.exe
-        url: https://ff-intrepid-launcher.s3.us-east-2.amazonaws.com/b9p7a3j6-6cw3-nz5s-km5y-r9w8u2x5cb4d/IntrepidInstaller-0.3.295.14113.exe
+        url: https://ff-intrepid-launcher.s3.us-east-2.amazonaws.com/b9p7a3j6-6cw3-nz5s-km5y-r9w8u2x5cb4d/IntrepidInstaller-0.3.328.24463.exe
     - webview_installer:
         filename: webview2.exe
         url: https://github.com/aedancullen/webview2-evergreen-standalone-installer-archive/releases/download/109.0.1518.78/MicrosoftEdgeWebView2RuntimeInstallerX64.exe
