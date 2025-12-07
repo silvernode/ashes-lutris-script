@@ -5,7 +5,7 @@ This script is a fork from the existing script on Lutris.net. I added some cruci
 
 ## Important!
 
-Launching the game from the launcher does not work for reasons speculated to do with authenication and Easy Anti-cheat.Each time you open the launcher and login, the authenication port changes which appears to not get passed to the client. Therefore in order to allow the game to reach the server you have to launch it from steam so it can use Easy Anti-cheat properly and also add launch options that include a one line comman that captures the random port each time you launch the game. 
+Launching the game from the launcher does not work for reasons speculated to do with authenication and Easy Anti-cheat.Each time you open the launcher and login, the authenication port changes which appears to not get passed to the client. Therefore in order to allow the game to reach the server you have to launch it from steam so it can use Easy Anti-cheat properly and also add launch options that include a one line command that captures the random port each time you launch the game. 
 
 ## instructions
 note: Make sure you have Wine installed either through Lutris or your package manager. The newer versions of Wine work best but Proton-GE is what I used which you can download with a tool called "protonup-qt" which is a flatpak
